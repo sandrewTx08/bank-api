@@ -12,8 +12,7 @@
 | ------------------------------------- | ------------- | -------------------------------------------------------- | --------------------------------------------------- |
 | `POST`                                | /api/registro | cpf, primeiroNome && segundoNome, credito, destinatario  | Registra usuário com CPF e primeiro e segundo nome. |
 | `DELETE`                              | /api/remove   | cpf, primeiroNome && segundoNome                         | Deleta usuário.                                     |
-| `PUT`                                 | /api/deposito | cpf, primeiroNome && segundoNome, deposito, destinatario |
-| Movimenta valores para outro usuário. |
+| `PUT`                                 | /api/deposito | cpf, primeiroNome && segundoNome, deposito, destinatario | Movimenta valores para outro usuário. |
 
 # Registrando usuário
 
