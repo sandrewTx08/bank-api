@@ -3,8 +3,9 @@ import registro from "./registro";
 import remove from "./remove";
 import desposito from "./deposito";
 import {
-  cpfcaracteres,
   cpfEmpty,
+  cpfNumber,
+  cpfCaracteres,
   cpfMaiorLength,
   cpfMenorLength,
   cpfSpace,
@@ -27,16 +28,22 @@ import {
   destinatarioSegundoNomeCaracteres,
   destinatarioSegundoNomeEmpty,
   destinatarioSegundoNomeSpace,
+  depositoNumber,
   depositoMaximo,
   depositoCaracteres,
   depositoEmpty,
   depositoSpace,
+  creditoCaracteres,
+  creditoEmpty,
+  creditoNumber,
+  creditoSpace,
 } from "../middlewares/parametros";
 
 const router = express.Router();
 
-router.use("/", cpfcaracteres);
 router.use("/", cpfEmpty);
+router.use("/", cpfCaracteres);
+router.use("/", cpfNumber);
 router.use("/", cpfMaiorLength);
 router.use("/", cpfMenorLength);
 router.use("/", cpfSpace);
@@ -46,6 +53,10 @@ router.use("/", primeiroNomeSpace);
 router.use("/", segundoNomecaracteres);
 router.use("/", segundoNomeEmpty);
 router.use("/", segundoNomeSpace);
+router.use("/", creditoCaracteres);
+router.use("/", creditoEmpty);
+router.use("/", creditoSpace);
+router.use("/", creditoNumber);
 
 router.use("/registro", registro);
 router.use("/remove", remove);
@@ -64,6 +75,7 @@ router.use("/", destinatarioSegundoNomeCaracteres);
 router.use("/", destinatarioSegundoNomeEmpty);
 router.use("/", destinatarioSegundoNomeSpace);
 router.use("/", depositoEmpty);
+router.use("/", depositoNumber);
 router.use("/", depositoSpace);
 router.use("/", depositoCaracteres);
 router.use("/", depositoMaximo);

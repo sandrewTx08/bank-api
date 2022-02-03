@@ -30,7 +30,18 @@ export function cpfMaiorLength(
   next();
 }
 
-export function cpfcaracteres(req: Request, res: Response, next: NextFunction) {
+export function cpfNumber(req: Request, res: Response, next: NextFunction) {
+  let { cpf } = req.body;
+
+  if (isNaN(cpf))
+    return res.status(400).json({
+      error: "CPF contem letra invés de números.",
+    });
+
+  next();
+}
+
+export function cpfCaracteres(req: Request, res: Response, next: NextFunction) {
   let { cpf } = req.body;
 
   if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(cpf))
@@ -388,9 +399,76 @@ export function depositoCaracteres(
 ) {
   let { deposito } = req.body;
 
-  if (typeof deposito !== "number")
+  if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(deposito))
     return res.status(400).json({
-      error: "O parametro deposito deve conter números.",
+      error: "O parametro deposito deve conter números invés de caracteres.",
+    });
+
+  next();
+}
+
+export function depositoNumber(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  let { deposito } = req.body;
+
+  if (isNaN(deposito))
+    return res.status(400).json({
+      error: "O parametro deposito deve conter números invés de letras.",
+    });
+
+  next();
+}
+
+export function creditoEmpty(req: Request, res: Response, next: NextFunction) {
+  let { credito } = req.body;
+
+  if (!credito)
+    return res.status(400).json({
+      error: "O parametro credito está vazio",
+    });
+
+  next();
+}
+
+export function creditoSpace(req: Request, res: Response, next: NextFunction) {
+  let { credito } = req.body;
+
+  if (/\s/.test(credito))
+    return res.status(400).json({
+      error: "credito não deve conter espaços.",
+    });
+
+  next();
+}
+
+export function creditoCaracteres(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  let { credito } = req.body;
+
+  if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(credito))
+    return res.status(400).json({
+      error: "O parametro credito deve conter números invés de caracteres.",
+    });
+
+  next();
+}
+
+export function creditoNumber(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  let { credito } = req.body;
+
+  if (isNaN(credito))
+    return res.status(400).json({
+      error: "O parametro credito deve conter números invés de letras.",
     });
 
   next();
