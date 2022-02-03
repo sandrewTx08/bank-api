@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import api from "./routes/index";
-import bodyParser from "./middlewares/bodyPaser";
+import bodyParser from "./middlewares/bodyParser";
 const app = express();
 
 app.use(bodyParser);
