@@ -24,7 +24,7 @@ curl -X POST -H "Content-Type: application/json" \
       "segundoNome":"Santos",
       "credito":1000
     }' \
-  http://localhost/api/register
+  http://localhost/api/registro
 ```
 
 ```cmd
@@ -35,7 +35,7 @@ curl -X POST -H "Content-Type: application/json" \
       "segundoNome":"Gabriel",
       "credito":1000
     }' \
-  http://localhost/api/register
+  http://localhost/api/registro
 ```
 
 O campo `credito` corresponde ao valor inicial do usuário.
@@ -75,6 +75,22 @@ curl -X PUT -H "Content-Type: application/json" \
           "cpf":12345678912,
           "primeiroNome":"Matheus",
           "segundoNome":"Gabriel"
+        }
+      }' \
+  http://localhost/api/deposito
+```
+
+```cmd
+curl -X PUT -H "Content-Type: application/json" \
+  -d '{
+        "cpf":12345678912,
+        "primeiroNome":"Matheus",
+        "segundoNome":"Gabriel",
+        "deposito":1000,
+        "destinatario": {
+          "cpf":12345678911,
+          "primeiroNome":"Joao",
+          "segundoNome":"Santos"
         }
       }' \
   http://localhost/api/deposito
