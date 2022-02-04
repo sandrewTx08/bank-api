@@ -8,11 +8,11 @@
 
 # Routes
 
-| Method                                | Endpoint      | Parse data                                               | Descrição                                           |
-| ------------------------------------- | ------------- | -------------------------------------------------------- | --------------------------------------------------- |
-| `POST`                                | /api/registro | cpf, primeiroNome && segundoNome, credito, destinatario  | Registra usuário com CPF e primeiro e segundo nome. |
-| `DELETE`                              | /api/remove   | cpf, primeiroNome && segundoNome                         | Deleta usuário.                                     |
-| `PUT`                                 | /api/deposito | cpf, primeiroNome && segundoNome, deposito, destinatario | Movimenta valores para outro usuário. |
+| Method   | Endpoint      | Parse data                                               | Descrição                                           |
+| -------- | ------------- | -------------------------------------------------------- | --------------------------------------------------- |
+| `POST`   | /api/registro | cpf, primeiroNome && segundoNome, credito, destinatario  | Registra usuário com CPF e primeiro e segundo nome. |
+| `DELETE` | /api/remove   | cpf, primeiroNome && segundoNome                         | Deleta usuário.                                     |
+| `PUT`    | /api/deposito | cpf, primeiroNome && segundoNome, deposito, destinatario | Movimenta valores para outro usuário.               |
 
 # Registrando usuário
 
@@ -22,6 +22,17 @@ curl -X POST -H "Content-Type: application/json" \
       "cpf":12345678911,
       "primeiroNome":"Joao",
       "segundoNome":"Santos",
+      "credito":1000
+    }' \
+  http://localhost/api/register
+```
+
+```cmd
+curl -X POST -H "Content-Type: application/json" \
+  -d '{
+      "cpf":12345678911,
+      "primeiroNome":"Matheus",
+      "segundoNome":"Gabriel",
       "credito":1000
     }' \
   http://localhost/api/register
