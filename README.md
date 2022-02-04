@@ -30,7 +30,7 @@ curl -X POST -H "Content-Type: application/json" \
 ```cmd
 curl -X POST -H "Content-Type: application/json" \
   -d '{
-      "cpf":12345678911,
+      "cpf":12345678912,
       "primeiroNome":"Matheus",
       "segundoNome":"Gabriel",
       "credito":1000
@@ -39,6 +39,28 @@ curl -X POST -H "Content-Type: application/json" \
 ```
 
 O campo `credito` corresponde ao valor inicial do usuário.
+
+# Deletando usuário
+
+```cmd
+curl -X DELETE -H "Content-Type: application/json" \
+  -d '{
+      "cpf":12345678911,
+      "primeiroNome":"Joao",
+      "segundoNome":"Santos"
+    }' \
+  http://localhost/api/remove
+```
+
+```cmd
+curl -X DELETE -H "Content-Type: application/json" \
+  -d '{
+      "cpf":12345678912,
+      "primeiroNome":"Matheus",
+      "segundoNome":"Gabriel"
+    }' \
+  http://localhost/api/remove
+```
 
 # Depositando valores para outra conta
 
