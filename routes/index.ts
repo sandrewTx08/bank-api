@@ -53,13 +53,15 @@ router.use("/", primeiroNomeSpace);
 router.use("/", segundoNomecaracteres);
 router.use("/", segundoNomeEmpty);
 router.use("/", segundoNomeSpace);
+
+router.use("/remove", remove);
+
 router.use("/", creditoCaracteres);
 router.use("/", creditoEmpty);
 router.use("/", creditoSpace);
 router.use("/", creditoNumber);
 
 router.use("/registro", registro);
-router.use("/remove", remove);
 
 router.use("/", destinatarioEmpty);
 router.use("/", destinatarioInvalido);
