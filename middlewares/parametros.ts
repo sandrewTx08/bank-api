@@ -35,7 +35,7 @@ export function cpfNumber(req: Request, res: Response, next: NextFunction) {
 
   if (typeof cpf !== "number")
     return res.status(400).json({
-      error: "CPF deve contem somente números.",
+      error: "CPF deve conter somente números.",
     });
 
   next();
@@ -83,7 +83,7 @@ export function primeiroString(
 
   if (typeof primeiroNome !== "string")
     return res.status(400).json({
-      error: "Primeiro nome dever ser somente letras.",
+      error: "Primeiro nome deve ter somente letras.",
     });
 
   next();
@@ -109,7 +109,7 @@ export function primeiroNomeEmpty(
   res: Response,
   next: NextFunction
 ) {
-  let { primeiroNome, segundoNome, cpf } = req.body;
+  let { primeiroNome } = req.body;
 
   if (!primeiroNome)
     return res.status(400).json({
@@ -139,7 +139,7 @@ export function segundoString(req: Request, res: Response, next: NextFunction) {
 
   if (typeof segundoNome !== "string")
     return res.status(400).json({
-      error: "Segundo nome dever ser somente letras.",
+      error: "Segundo nome deve ter somente letras.",
     });
 
   next();
@@ -300,7 +300,7 @@ export function destinatarioPrimeiroString(
 
   if (typeof primeiroNome !== "string")
     return res.status(400).json({
-      error: "Primeiro nome do destinatario dever ser somente letras.",
+      error: "Primeiro nome do destinatario deve ter somente letras.",
     });
 
   next();
@@ -360,7 +360,7 @@ export function destinatarioSegundoNomeString(
 
   if (typeof segundoNome !== "string")
     return res.status(400).json({
-      error: "Segundo nome do destinatario dever ser somente letras.",
+      error: "Segundo nome do destinatario deve ter somente letras.",
     });
 
   next();
