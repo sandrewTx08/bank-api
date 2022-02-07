@@ -8,9 +8,9 @@
 
 # Routes
 
-| Method   | Endpoint      | Parse data                                               | Descrição                                           |
-| -------- | ------------- | -------------------------------------------------------- | --------------------------------------------------- |
-| `POST`   | /api/registro | cpf, primeiroNome, segundoNome, credito  | Registra usuário com CPF e primeiro e segundo nome. |
+| Method   | Endpoint      | Parse data                                             | Descrição                                           |
+| -------- | ------------- | ------------------------------------------------------ | --------------------------------------------------- |
+| `POST`   | /api/registro | cpf, primeiroNome, segundoNome, credito                | Registra usuário com CPF e primeiro e segundo nome. |
 | `DELETE` | /api/remove   | cpf, primeiroNome, segundoNome                         | Deleta usuário.                                     |
 | `PUT`    | /api/deposito | cpf, primeiroNome, segundoNome, deposito, destinatario | Movimenta valores para outro usuário.               |
 
@@ -97,3 +97,14 @@ curl -X PUT -H "Content-Type: application/json" \
 ```
 
 O campo `deposito` corresponde o valor a ser enviado ao destinatario.
+
+# Configurando o Database
+
+Dentro da pasta do projeto crie um arquivo com o nome `.env` e nele crie uma variável `MONGO_DB`.
+
+Exemplo:
+
+__.env__
+```
+MONGO_DB=mongodb://username:password@host:port/database?options
+```
