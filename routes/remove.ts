@@ -5,14 +5,11 @@ const router = express.Router();
 router.use(async (req: Request, res: Response, next: NextFunction) => {
   let { primeiroNome, segundoNome, cpf } = req.body;
 
-  let query =
-    (await registro.findOne({
-      cpf,
-    })) ||
-    (await registro.findOne({
-      primeiroNome,
-      segundoNome,
-    }));
+  let query = await registro.findOne({
+    cpf,
+    primeiroNome,
+    segundoNome,
+  });
 
   if (!query)
     return res.json({

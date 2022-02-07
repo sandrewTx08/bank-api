@@ -20,14 +20,11 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
   // Usuário que deposita
   let { primeiroNome, segundoNome, cpf, deposito } = req.body;
 
-  let query =
-    (await registro.findOne({
-      cpf,
-    })) ||
-    (await registro.findOne({
-      primeiroNome,
-      segundoNome,
-    }));
+  let query = await registro.findOne({
+    cpf,
+    primeiroNome,
+    segundoNome,
+  });
 
   if (!query)
     return res.status(404).json({
@@ -39,14 +36,9 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
       error: "Sem valores para efetuar transação",
     });
 
-  await registro.findOneAndUpdate(
-    {
-      cpf,
-      primeiroNome,
-      segundoNome,
-    },
-    { credito: query.credito - deposito }
-  );
+  let credito = query.credito - deposito;
+  let { _id } = query;
+  await registro.findByIdAndUpdate(_id, { credito });
 
   next();
 });
@@ -56,28 +48,20 @@ router.put("/", async (req: Request, res: Response) => {
   let { deposito } = req.body;
   let { cpf, primeiroNome, segundoNome } = req.body.destinatario;
 
-  let queryDestinatario =
-    (await registro.findOne({
-      cpf,
-    })) ||
-    (await registro.findOne({
-      primeiroNome,
-      segundoNome,
-    }));
+  let queryDestinatario = await registro.findOne({
+    cpf,
+    primeiroNome,
+    segundoNome,
+  });
 
   if (!queryDestinatario)
     return res.json({
       error: "Destinatario não existe.",
     });
 
-  await registro.findOneAndUpdate(
-    {
-      cpf,
-      primeiroNome,
-      segundoNome,
-    },
-    { credito: queryDestinatario.credito + deposito }
-  );
+  let credito = queryDestinatario.credito + deposito;
+  let { _id } = queryDestinatario;
+  await registro.findByIdAndUpdate(_id, { credito });
 
   res.json({
     message: `Usuário ${req.body.primeiroNome} deposita ${deposito} para ${primeiroNome}.`,

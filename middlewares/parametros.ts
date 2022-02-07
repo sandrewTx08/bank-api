@@ -33,9 +33,9 @@ export function cpfMaiorLength(
 export function cpfNumber(req: Request, res: Response, next: NextFunction) {
   let { cpf } = req.body;
 
-  if (isNaN(cpf))
+  if (typeof cpf !== "number")
     return res.status(400).json({
-      error: "CPF contem letra invés de números.",
+      error: "CPF deve contem somente números.",
     });
 
   next();
@@ -69,6 +69,21 @@ export function cpfEmpty(req: Request, res: Response, next: NextFunction) {
   if (!cpf)
     return res.status(400).json({
       error: "CPF é necessario.",
+    });
+
+  next();
+}
+
+export function primeiroString(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  let { primeiroNome } = req.body;
+
+  if (typeof primeiroNome !== "string")
+    return res.status(400).json({
+      error: "Primeiro nome dever ser somente letras.",
     });
 
   next();
@@ -114,6 +129,17 @@ export function primeiroNomeSpace(
   if (/\s/.test(primeiroNome))
     return res.status(400).json({
       error: "Primeiro nome não deve conter espaços.",
+    });
+
+  next();
+}
+
+export function segundoString(req: Request, res: Response, next: NextFunction) {
+  let { segundoNome } = req.body;
+
+  if (typeof segundoNome !== "string")
+    return res.status(400).json({
+      error: "Segundo nome dever ser somente letras.",
     });
 
   next();
@@ -265,6 +291,21 @@ export function destinatarioCpfEmpty(
   next();
 }
 
+export function destinatarioPrimeiroString(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  let { primeiroNome } = req.body.destinatario;
+
+  if (typeof primeiroNome !== "string")
+    return res.status(400).json({
+      error: "Primeiro nome do destinatario dever ser somente letras.",
+    });
+
+  next();
+}
+
 export function destinatarioPrimeiroNomeCaracteres(
   req: Request,
   res: Response,
@@ -305,6 +346,21 @@ export function destinatarioPrimeiroNomeSpace(
   if (/\s/.test(primeiroNome))
     return res.status(400).json({
       error: "Segundo nome do destinatário não deve conter espaços.",
+    });
+
+  next();
+}
+
+export function destinatarioSegundoNomeString(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  let { segundoNome } = req.body.destinatario;
+
+  if (typeof segundoNome !== "string")
+    return res.status(400).json({
+      error: "Segundo nome do destinatario dever ser somente letras.",
     });
 
   next();
@@ -414,9 +470,9 @@ export function depositoNumber(
 ) {
   let { deposito } = req.body;
 
-  if (isNaN(deposito))
+  if (typeof deposito !== "number")
     return res.status(400).json({
-      error: "O parametro deposito deve conter números invés de letras.",
+      error: "O parametro deposito deve conter somente números.",
     });
 
   next();
@@ -459,16 +515,12 @@ export function creditoCaracteres(
   next();
 }
 
-export function creditoNumber(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export function creditoNumber(req: Request, res: Response, next: NextFunction) {
   let { credito } = req.body;
 
-  if (isNaN(credito))
+  if (typeof credito !== "number")
     return res.status(400).json({
-      error: "O parametro credito deve conter números invés de letras.",
+      error: "O parametro credito deve conter somente números.",
     });
 
   next();
