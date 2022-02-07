@@ -3,7 +3,7 @@ import api from "./routes/index";
 import bodyParser from "./middlewares/bodyParser";
 const app = express();
 
-app.use(bodyParser);
+app.use("/api", bodyParser);
 app.use("/api", api);
 
 app.use((req: Request, res: Response) => {
