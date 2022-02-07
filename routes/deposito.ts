@@ -17,6 +17,25 @@ const router = express.Router();
 */
 
 router.use(async (req: Request, res: Response, next: NextFunction) => {
+  let { cpf, primeiroNome, segundoNome } = req.body.destinatario;
+
+  let queryDestinatario = await registro.findOne({
+    cpf,
+    primeiroNome,
+    segundoNome,
+  });
+
+  if (!queryDestinatario)
+    return res.json({
+      error: "Destinatario não existe.",
+    });
+
+  res.locals.queryDestinatario = queryDestinatario;
+
+  next();
+});
+
+router.use(async (req: Request, res: Response, next: NextFunction) => {
   // Usuário que deposita
   let { primeiroNome, segundoNome, cpf, deposito } = req.body;
 
@@ -25,6 +44,11 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
     primeiroNome,
     segundoNome,
   });
+
+  if (String(query._id) === String(res.locals.queryDestinatario._id))
+    return res.status(404).json({
+      error: "Não possível enviar valores para sua própria conta.",
+    });
 
   if (!query)
     return res.status(404).json({
@@ -46,13 +70,7 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
 router.put("/", async (req: Request, res: Response) => {
   // Usuário que recebe
   let { deposito } = req.body;
-  let { cpf, primeiroNome, segundoNome } = req.body.destinatario;
-
-  let queryDestinatario = await registro.findOne({
-    cpf,
-    primeiroNome,
-    segundoNome,
-  });
+  let { queryDestinatario } = res.locals;
 
   if (!queryDestinatario)
     return res.json({
@@ -61,10 +79,10 @@ router.put("/", async (req: Request, res: Response) => {
 
   let credito = queryDestinatario.credito + deposito;
   let { _id } = queryDestinatario;
-  await registro.findByIdAndUpdate(_id, { credito });
+  let query = await registro.findByIdAndUpdate(_id, { credito });
 
   res.json({
-    message: `Usuário ${req.body.primeiroNome} deposita ${deposito} para ${primeiroNome}.`,
+    message: `Usuário ${req.body.primeiroNome} deposita ${deposito} para ${query.primeiroNome}.`,
   });
 });
 
