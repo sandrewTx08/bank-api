@@ -2,8 +2,6 @@ import express, { Request, Response, NextFunction } from "express";
 import registro from "../modules/model";
 const router = express.Router();
 
-const creditoValorInicial = 10000;
-
 router.use(async (req: Request, res: Response, next: NextFunction) => {
   let { primeiroNome, segundoNome, cpf } = req.body;
 
@@ -25,13 +23,13 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.post("/", async (req: Request, res: Response) => {
-  let { primeiroNome, segundoNome, cpf } = req.body;
+  let { primeiroNome, segundoNome, cpf, credito } = req.body;
 
   await registro.create({
     cpf,
     primeiroNome,
     segundoNome,
-    credito: creditoValorInicial,
+    credito,
   });
 
   res.json({
