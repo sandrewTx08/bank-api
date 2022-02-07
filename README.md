@@ -8,11 +8,12 @@
 
 # Routes
 
-| Method   | Endpoint      | Parse data                                             | Descrição                                           |
-| -------- | ------------- | ------------------------------------------------------ | --------------------------------------------------- |
-| `POST`   | /api/registro | cpf, primeiroNome, segundoNome, credito                | Registra usuário com CPF e primeiro e segundo nome. |
-| `DELETE` | /api/remove   | cpf, primeiroNome, segundoNome                         | Deleta usuário.                                     |
-| `PUT`    | /api/deposito | cpf, primeiroNome, segundoNome, deposito, destinatario | Movimenta valores para outro usuário.               |
+| Method   | Endpoint           | Parse data                                            | Descrição                                           |
+| -------- | ------------------ | ----------------------------------------------------- | --------------------------------------------------- |
+| `POST`   | /api/registro      | cpf, primeiroNome, segundoNome, credito               | Registra usuário com CPF e primeiro e segundo nome. |
+| `DELETE` | /api/remove        | cpf, primeiroNome, segundoNome                        | Deleta usuário.                                     |
+| `PUT`    | /api/transferencia | cpf, primeiroNome, segundoNome, credito, destinatario | Movimenta valores para outro usuário.               |
+| `PUT`    | /api/deposito      | cpf, primeiroNome, segundoNome, credito               | Deposita valores até R$2000.                         |
 
 # Registrando usuário
 
@@ -62,7 +63,7 @@ curl -X DELETE -H "Content-Type: application/json" \
   https://banco-backend-08.herokuapp.com/api/remove
 ```
 
-# Depositando valores para outra conta
+# Transferindo valores para outra conta
 
 ```cmd
 curl -X PUT -H "Content-Type: application/json" \
@@ -70,12 +71,43 @@ curl -X PUT -H "Content-Type: application/json" \
         "cpf":12345678911,
         "primeiroNome":"Joao",
         "segundoNome":"Santos",
-        "deposito":1000,
+        "credito":1000,
         "destinatario": {
           "cpf":12345678912,
           "primeiroNome":"Matheus",
           "segundoNome":"Gabriel"
         }
+      }' \
+  https://banco-backend-08.herokuapp.com/api/transferencia
+```
+
+```cmd
+curl -X PUT -H "Content-Type: application/json" \
+  -d '{
+        "cpf":12345678912,
+        "primeiroNome":"Matheus",
+        "segundoNome":"Gabriel",
+        "credito":1000,
+        "destinatario": {
+          "cpf":12345678911,
+          "primeiroNome":"Joao",
+          "segundoNome":"Santos"
+        }
+      }' \
+  https://banco-backend-08.herokuapp.com/api/transferencia
+```
+
+O campo `credito` corresponde o valor a ser enviado ao destinatario.
+
+# Depositando valores
+
+```cmd
+curl -X PUT -H "Content-Type: application/json" \
+  -d '{
+        "cpf":12345678911,
+        "primeiroNome":"Joao",
+        "segundoNome":"Santos",
+        "credito":1000
       }' \
   https://banco-backend-08.herokuapp.com/api/deposito
 ```
@@ -86,17 +118,12 @@ curl -X PUT -H "Content-Type: application/json" \
         "cpf":12345678912,
         "primeiroNome":"Matheus",
         "segundoNome":"Gabriel",
-        "deposito":1000,
-        "destinatario": {
-          "cpf":12345678911,
-          "primeiroNome":"Joao",
-          "segundoNome":"Santos"
-        }
+        "credito":1000
       }' \
   https://banco-backend-08.herokuapp.com/api/deposito
 ```
 
-O campo `deposito` corresponde o valor a ser enviado ao destinatario.
+O campo `credito` corresponde o valor a ser depositado.
 
 # Configurando o Database
 

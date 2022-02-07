@@ -1,7 +1,8 @@
 import express from "express";
 import registro from "./registro";
 import remove from "./remove";
-import desposito from "./deposito";
+import transferencia from "./transferencia";
+import deposito from "./deposito";
 import {
   cpfEmpty,
   cpfNumber,
@@ -32,11 +33,6 @@ import {
   destinatarioSegundoNomeSpace,
   destinatarioPrimeiroString,
   destinatarioSegundoNomeString,
-  depositoNumber,
-  depositoMaximo,
-  depositoCaracteres,
-  depositoEmpty,
-  depositoSpace,
   creditoCaracteres,
   creditoEmpty,
   creditoNumber,
@@ -62,32 +58,29 @@ router.use("/", segundoNomeSpace);
 
 router.use("/remove", remove);
 
-router.use("/deposito", destinatarioEmpty);
-router.use("/deposito", destinatarioInvalido);
-router.use("/deposito", destinatarioCpfCaracteres);
-router.use("/deposito", destinatarioCpfEmpty);
-router.use("/deposito", destinatariocpfMaiorLength);
-router.use("/deposito", destinatarioCpfMenorLength);
-router.use("/deposito", destinatarioCpfSpace);
-router.use("/deposito", destinatarioPrimeiroString);
-router.use("/deposito", destinatarioPrimeiroNomeCaracteres);
-router.use("/deposito", destinatarioPrimeiroNomeEmpty);
-router.use("/deposito", destinatarioPrimeiroNomeSpace);
-router.use("/deposito", destinatarioSegundoNomeEmpty);
-router.use("/deposito", destinatarioSegundoNomeString);
-router.use("/deposito", destinatarioSegundoNomeCaracteres);
-router.use("/deposito", destinatarioSegundoNomeSpace);
-router.use("/deposito", depositoEmpty);
-router.use("/deposito", depositoNumber);
-router.use("/deposito", depositoSpace);
-router.use("/deposito", depositoCaracteres);
-router.use("/deposito", depositoMaximo);
-router.use("/deposito", desposito);
+router.use(creditoEmpty);
+router.use(creditoNumber);
+router.use(creditoCaracteres);
+router.use(creditoSpace);
 
-router.use("/registro", creditoCaracteres);
-router.use("/registro", creditoEmpty);
-router.use("/registro", creditoSpace);
-router.use("/registro", creditoNumber);
 router.use("/registro", registro);
+router.use("/deposito", deposito);
+
+router.use("/transferencia", destinatarioEmpty);
+router.use("/transferencia", destinatarioInvalido);
+router.use("/transferencia", destinatarioCpfCaracteres);
+router.use("/transferencia", destinatarioCpfEmpty);
+router.use("/transferencia", destinatariocpfMaiorLength);
+router.use("/transferencia", destinatarioCpfMenorLength);
+router.use("/transferencia", destinatarioCpfSpace);
+router.use("/transferencia", destinatarioPrimeiroString);
+router.use("/transferencia", destinatarioPrimeiroNomeCaracteres);
+router.use("/transferencia", destinatarioPrimeiroNomeEmpty);
+router.use("/transferencia", destinatarioPrimeiroNomeSpace);
+router.use("/transferencia", destinatarioSegundoNomeEmpty);
+router.use("/transferencia", destinatarioSegundoNomeString);
+router.use("/transferencia", destinatarioSegundoNomeCaracteres);
+router.use("/transferencia", destinatarioSegundoNomeSpace);
+router.use("/transferencia", transferencia);
 
 export default router;
