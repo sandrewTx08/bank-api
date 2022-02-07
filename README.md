@@ -24,7 +24,7 @@ curl -X POST -H "Content-Type: application/json" \
       "segundoNome":"Santos",
       "credito":1000
     }' \
-  http://localhost/api/registro
+  https://banco-backend-08.herokuapp.com/api/registro
 ```
 
 ```cmd
@@ -35,7 +35,7 @@ curl -X POST -H "Content-Type: application/json" \
       "segundoNome":"Gabriel",
       "credito":1000
     }' \
-  http://localhost/api/registro
+  https://banco-backend-08.herokuapp.com/api/registro
 ```
 
 O campo `credito` corresponde ao valor inicial do usuário.
@@ -49,7 +49,7 @@ curl -X DELETE -H "Content-Type: application/json" \
       "primeiroNome":"Joao",
       "segundoNome":"Santos"
     }' \
-  http://localhost/api/remove
+  https://banco-backend-08.herokuapp.com/api/remove
 ```
 
 ```cmd
@@ -59,7 +59,7 @@ curl -X DELETE -H "Content-Type: application/json" \
       "primeiroNome":"Matheus",
       "segundoNome":"Gabriel"
     }' \
-  http://localhost/api/remove
+  https://banco-backend-08.herokuapp.com/api/remove
 ```
 
 # Depositando valores para outra conta
@@ -77,7 +77,7 @@ curl -X PUT -H "Content-Type: application/json" \
           "segundoNome":"Gabriel"
         }
       }' \
-  http://localhost/api/deposito
+  https://banco-backend-08.herokuapp.com/api/deposito
 ```
 
 ```cmd
@@ -93,7 +93,7 @@ curl -X PUT -H "Content-Type: application/json" \
           "segundoNome":"Santos"
         }
       }' \
-  http://localhost/api/deposito
+  https://banco-backend-08.herokuapp.com/api/deposito
 ```
 
 O campo `deposito` corresponde o valor a ser enviado ao destinatario.
@@ -104,7 +104,8 @@ Dentro da pasta do projeto crie um arquivo com o nome `.env` e nele crie uma var
 
 Exemplo:
 
-__.env__
+**.env**
+
 ```
 MONGO_DB=mongodb://username:password@host:port/database?options
 ```
