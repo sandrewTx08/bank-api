@@ -25,6 +25,8 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
 router.post("/", async (req: Request, res: Response) => {
   let { primeiroNome, segundoNome, cpf, credito } = req.body;
 
+  credito = credito ? Number(credito) || 0 : 0;
+
   await registro.create({
     cpf,
     primeiroNome,

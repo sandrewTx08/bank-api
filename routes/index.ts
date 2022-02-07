@@ -56,6 +56,7 @@ router.use("/", segundoString);
 router.use("/", segundoNomecaracteres);
 router.use("/", segundoNomeSpace);
 
+router.use("/registro", registro);
 router.use("/remove", remove);
 
 router.use(creditoEmpty);
@@ -63,7 +64,6 @@ router.use(creditoNumber);
 router.use(creditoCaracteres);
 router.use(creditoSpace);
 
-router.use("/registro", registro);
 router.use("/deposito", deposito);
 
 router.use("/transferencia", destinatarioEmpty);

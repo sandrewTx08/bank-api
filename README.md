@@ -10,32 +10,31 @@
 
 | Method   | Endpoint           | Parse data                                            | Descrição                                           |
 | -------- | ------------------ | ----------------------------------------------------- | --------------------------------------------------- |
-| `POST`   | /api/registro      | cpf, primeiroNome, segundoNome, credito               | Registra usuário com CPF e primeiro e segundo nome. |
+| `POST`   | /api/registro      | cpf, primeiroNome, segundoNome, credito **(opcional)**    | Registra usuário com CPF e primeiro e segundo nome. |
 | `DELETE` | /api/remove        | cpf, primeiroNome, segundoNome                        | Deleta usuário.                                     |
 | `PUT`    | /api/transferencia | cpf, primeiroNome, segundoNome, credito, destinatario | Movimenta valores para outro usuário.               |
-| `PUT`    | /api/deposito      | cpf, primeiroNome, segundoNome, credito               | Deposita valores até R$2000.                         |
+| `PUT`    | /api/deposito      | cpf, primeiroNome, segundoNome, credito               | Deposita valores até R$2000.                        |
 
 # Registrando usuário
 
 ```cmd
 curl -X POST -H "Content-Type: application/json" \
   -d '{
-      "cpf":12345678911,
-      "primeiroNome":"Joao",
-      "segundoNome":"Santos",
-      "credito":1000
-    }' \
+        "cpf":12345678911,
+        "primeiroNome":"Joao",
+        "segundoNome":"Santos"
+      }' \
   https://banco-backend-08.herokuapp.com/api/registro
 ```
 
 ```cmd
 curl -X POST -H "Content-Type: application/json" \
   -d '{
-      "cpf":12345678912,
-      "primeiroNome":"Matheus",
-      "segundoNome":"Gabriel",
-      "credito":1000
-    }' \
+        "cpf":12345678912,
+        "primeiroNome":"Matheus",
+        "segundoNome":"Gabriel",
+        "credito":50
+      }' \
   https://banco-backend-08.herokuapp.com/api/registro
 ```
 
@@ -46,20 +45,20 @@ O campo `credito` corresponde ao valor inicial do usuário.
 ```cmd
 curl -X DELETE -H "Content-Type: application/json" \
   -d '{
-      "cpf":12345678911,
-      "primeiroNome":"Joao",
-      "segundoNome":"Santos"
-    }' \
+        "cpf":12345678911,
+        "primeiroNome":"Joao",
+        "segundoNome":"Santos"
+      }' \
   https://banco-backend-08.herokuapp.com/api/remove
 ```
 
 ```cmd
 curl -X DELETE -H "Content-Type: application/json" \
   -d '{
-      "cpf":12345678912,
-      "primeiroNome":"Matheus",
-      "segundoNome":"Gabriel"
-    }' \
+        "cpf":12345678912,
+        "primeiroNome":"Matheus",
+        "segundoNome":"Gabriel"
+      }' \
   https://banco-backend-08.herokuapp.com/api/remove
 ```
 
