@@ -45,14 +45,14 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
     segundoNome,
   });
 
-  if (String(query._id) === String(res.locals.queryDestinatario._id))
-    return res.status(404).json({
-      error: "Não possível transferir valores para sua própria conta.",
-    });
-
   if (!query)
     return res.status(404).json({
       error: `${primeiroNome} não foi encontrado.`,
+    });
+
+  if (query._id.valueOf() === res.locals.queryDestinatario._id.valueOf())
+    return res.status(404).json({
+      error: "Não possível transferir valores para sua própria conta.",
     });
 
   if (query.credito - credito < 0)
