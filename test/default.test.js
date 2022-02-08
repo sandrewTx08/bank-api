@@ -1,28 +1,29 @@
+require("should");
 const supertest = require("supertest");
-const should = require("should");
-const server = supertest.agent(`localhost:${process.env.PORT || 80}`);
+const request = supertest
+  .agent(`localhost:${process.env.PORT || 80}`)
+  .set("Content-Type", "application/json");
 
 describe("test principal", () => {
-  let usuario1 = {
-    cpf: 12345678921,
-    primeiroNome: "Paulo",
-    segundoNome: "Joao",
-  };
+  beforeEach(() => {
+    usuario1 = {
+      cpf: 12345678921,
+      primeiroNome: "Paulo",
+      segundoNome: "Joao",
+    };
 
-  let usuario2 = {
-    cpf: 12345678922,
-    primeiroNome: "Gabriel",
-    segundoNome: "Matheus",
-  };
+    usuario2 = {
+      cpf: 12345678922,
+      primeiroNome: "Gabriel",
+      segundoNome: "Matheus",
+    };
+  });
 
   describe("registrando", () => {
     it("usuario 1", (done) => {
-      let usuario = usuario1;
-
-      server
+      request
         .post("/api/registro")
-        .send(usuario)
-        .set("Content-Type", "application/json")
+        .send(usuario1)
         .end((err, res) => {
           should(res.body).have.property("message");
           done();
@@ -30,12 +31,9 @@ describe("test principal", () => {
     });
 
     it("usuario 2", (done) => {
-      let usuario = usuario2;
-
-      server
+      request
         .post("/api/registro")
-        .send(usuario)
-        .set("Content-Type", "application/json")
+        .send(usuario2)
         .end((err, res) => {
           should(res.body).have.property("message");
           done();
@@ -45,12 +43,11 @@ describe("test principal", () => {
 
   describe("deposito", () => {
     it("usuario 1", (done) => {
-      let usuario = usuario1;
-      usuario.credito = 1000;
+      usuario1.credito = 1000;
 
-      server
+      request
         .put("/api/deposito")
-        .send(usuario)
+        .send(usuario1)
         .set("Content-Type", "application/json")
         .end((err, res) => {
           should(res.body).have.property("message");
@@ -59,12 +56,11 @@ describe("test principal", () => {
     });
 
     it("usuario 2", (done) => {
-      let usuario = usuario2;
-      usuario.credito = 1000;
+      usuario2.credito = 1000;
 
-      server
+      request
         .put("/api/deposito")
-        .send(usuario)
+        .send(usuario2)
         .set("Content-Type", "application/json")
         .end((err, res) => {
           should(res.body).have.property("message");
@@ -75,14 +71,12 @@ describe("test principal", () => {
 
   describe("transferencia", () => {
     it("usuario 1", (done) => {
-      let usuario = usuario1;
-      usuario.credito = 1000;
-      usuario.destinatario = usuario2;
+      usuario1.credito = 1000;
+      usuario1.destinatario = usuario2;
 
-      server
+      request
         .put("/api/transferencia")
-        .send(usuario)
-        .set("Content-Type", "application/json")
+        .send(usuario1)
         .end((err, res) => {
           should(res.body).have.property("message");
           done();
@@ -90,14 +84,12 @@ describe("test principal", () => {
     });
 
     it("usuario 2", (done) => {
-      let usuario = usuario2;
-      usuario.credito = 1000;
-      usuario.destinatario = usuario1;
+      usuario2.credito = 1000;
+      usuario2.destinatario = usuario1;
 
-      server
+      request
         .put("/api/transferencia")
-        .send(usuario)
-        .set("Content-Type", "application/json")
+        .send(usuario2)
         .end((err, res) => {
           should(res.body).have.property("message");
           done();
@@ -106,12 +98,9 @@ describe("test principal", () => {
   });
 
   after((done) => {
-    let usuario = usuario1;
-
-    server
+    request
       .delete("/api/remove")
-      .send(usuario)
-      .set("Content-Type", "application/json")
+      .send(usuario1)
       .end((err, res) => {
         should(res.body).have.property("message");
         done();
@@ -119,12 +108,9 @@ describe("test principal", () => {
   });
 
   after((done) => {
-    let usuario = usuario2;
-
-    server
+    request
       .delete("/api/remove")
-      .send(usuario)
-      .set("Content-Type", "application/json")
+      .send(usuario2)
       .end((err, res) => {
         should(res.body).have.property("message");
         done();
