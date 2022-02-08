@@ -13,3 +13,5 @@ app.use((req: Request, res: Response) => {
 });
 
 app.listen(process.env.PORT || 80);
+
+module.exports = app;
