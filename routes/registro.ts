@@ -15,7 +15,7 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
     }));
 
   if (query)
-    return res.json({
+    return res.status(409).json({
       error: "Usuário já existe.",
     });
 
@@ -34,7 +34,7 @@ router.post("/", async (req: Request, res: Response) => {
     credito,
   });
 
-  res.json({
+  res.status(201).json({
     message: `Usuário ${primeiroNome} criado com sucesso.`,
   });
 });

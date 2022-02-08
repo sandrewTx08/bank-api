@@ -26,7 +26,7 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
   });
 
   if (!queryDestinatario)
-    return res.json({
+    return res.status(404).json({
       error: "Destinatario não existe.",
     });
 
@@ -56,7 +56,7 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
     });
 
   if (query.credito - credito < 0)
-    return res.json({
+    return res.status(400).json({
       error: "Sem valores para efetuar transação",
     });
 
@@ -76,7 +76,7 @@ router.put("/", async (req: Request, res: Response) => {
   let { _id } = queryDestinatario;
   await registro.findByIdAndUpdate(_id, { credito: calculo });
 
-  res.json({
+  res.status(201).json({
     message: `${req.body.primeiroNome} transferi R$${credito} para ${queryDestinatario.primeiroNome}.`,
   });
 });

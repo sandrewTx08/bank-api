@@ -44,7 +44,7 @@ router.put("/", async (req: Request, res: Response) => {
   let { _id } = query;
   await registro.findByIdAndUpdate(_id, { credito: calculo });
 
-  res.json({
+  res.status(201).json({
     message: `${req.body.primeiroNome} deposita R$${credito}.`,
   });
 });
