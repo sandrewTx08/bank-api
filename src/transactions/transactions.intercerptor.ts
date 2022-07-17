@@ -4,12 +4,15 @@ import {
   ExecutionContext,
   CallHandler,
 } from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { EmailsService } from 'src/emails.service';
 
 @Injectable()
-export class LoggingInterceptor implements NestInterceptor {
-  intercept(context: ExecutionContext, next: CallHandler) {
-    console.log('uno');
+export class TransformInterceptor implements NestInterceptor {
+  constructor(private emailService: EmailsService) {}
 
-    return next.handle().pipe();
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    return next.handle().pipe(map((data) => ({ data })));
   }
 }

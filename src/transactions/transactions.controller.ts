@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Put,
+  UseInterceptors,
 } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
 import { Prisma } from '@prisma/client';
@@ -14,6 +15,7 @@ import {
   TransactionDepositPipe,
   TransactionTransferencePipe,
 } from './transactions.pipe';
+import { TransformInterceptor } from './transactions.intercerptor';
 
 @Controller('transactions')
 export class TransactionsController {
@@ -25,6 +27,7 @@ export class TransactionsController {
   }
 
   @Put('/transference')
+  @UseInterceptors(TransformInterceptor)
   transference(@Body() body: TransactionTransferencePipe) {
     return this.transactionsService.transference(
       body.from_user_id,
