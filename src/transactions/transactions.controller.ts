@@ -13,7 +13,7 @@ import { TransactionsService } from './transactions.service';
 import { Prisma } from '@prisma/client';
 import {
   TransactionDepositPipe,
-  TransactionTransferencePipe,
+  TransactionTransferPipe,
 } from './transactions.pipe';
 import { TransactionsEmailNotification } from './transactions.intercerptor';
 
@@ -27,10 +27,10 @@ export class TransactionsController {
     return this.transactionsService.deposit(body.from_user_id, body.amount);
   }
 
-  @Put('/transference')
+  @Put('/transfer')
   @UseInterceptors(TransactionsEmailNotification)
-  transference(@Body() body: TransactionTransferencePipe) {
-    return this.transactionsService.transference(
+  transfer(@Body() body: TransactionTransferPipe) {
+    return this.transactionsService.transfer(
       body.from_user_id,
       body.to_user_id,
       body.amount,

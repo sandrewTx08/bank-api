@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsInt, Max } from 'class-validator';
 
-export class TransactionTransferencePipe {
+export class TransactionTransferPipe {
   @IsInt()
   @Type(() => Number)
   to_user_id: number;

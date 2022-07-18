@@ -29,7 +29,7 @@ export class TransactionsService {
         });
   }
 
-  async transference(from_user_id: number, to_user_id: number, amount: number) {
+  async transfer(from_user_id: number, to_user_id: number, amount: number) {
     const [from_user, to_user] = await Promise.all([
       this.userService.findOne({ id: from_user_id }),
       this.userService.findOne({ id: to_user_id }),
