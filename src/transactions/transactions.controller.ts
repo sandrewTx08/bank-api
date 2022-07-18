@@ -15,19 +15,20 @@ import {
   TransactionDepositPipe,
   TransactionTransferencePipe,
 } from './transactions.pipe';
-import { TransformInterceptor } from './transactions.intercerptor';
+import { TransactionsEmailNotification } from './transactions.intercerptor';
 
 @Controller('transactions')
 export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
   @Put('/deposit')
+  @UseInterceptors(TransactionsEmailNotification)
   deposit(@Body() body: TransactionDepositPipe) {
     return this.transactionsService.deposit(body.from_user_id, body.amount);
   }
 
   @Put('/transference')
-  @UseInterceptors(TransformInterceptor)
+  @UseInterceptors(TransactionsEmailNotification)
   transference(@Body() body: TransactionTransferencePipe) {
     return this.transactionsService.transference(
       body.from_user_id,

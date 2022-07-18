@@ -69,7 +69,7 @@ export class TransactionsService {
       this.history(amount, from_user.id),
     ]);
 
-    return from_user_update;
+    return { from_user: from_user_update };
   }
 
   create(data: Prisma.TransactionsCreateInput): Promise<Transactions | null> {

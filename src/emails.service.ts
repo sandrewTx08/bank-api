@@ -4,16 +4,21 @@ import Mail from 'nodemailer/lib/mailer';
 
 @Injectable()
 export class EmailsService {
-  async send<T>(mailInfo: Mail<T>['options']) {
+  async sendByGmailProvider<T, M = Mail<T>['options']>(
+    mailInfo: Omit<M, 'from'>,
+  ) {
     const transporter = createTransport({
       service: 'gmail',
       auth: {
-        user: '',
-        pass: '',
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS,
       },
     });
 
-    const sendInfo = await transporter.sendMail(mailInfo);
+    const sendInfo = await transporter.sendMail({
+      ...mailInfo,
+      from: process.env.GMAIL_USER,
+    });
     return sendInfo;
   }
 }
