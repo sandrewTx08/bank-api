@@ -28,22 +28,22 @@ export class TransactiontypesController {
 
   @Get(':id')
   findOne(@Param('id') id: number) {
-    return this.transactiontypesService.findOne({ id: +id });
+    return this.transactiontypesService.findOne({ id });
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateTransactionTypeDto: Prisma.TransactionTypesUpdateInput,
   ) {
     return this.transactiontypesService.update(
-      { id: +id },
+      { id },
       updateTransactionTypeDto,
     );
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.transactiontypesService.remove({ id: +id });
+  remove(@Param('id') id: number) {
+    return this.transactiontypesService.remove({ id });
   }
 }

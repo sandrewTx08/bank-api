@@ -16,6 +16,7 @@ import {
   TransactionTransferPipe,
 } from './transactions.pipe';
 import { TransactionsEmailNotification } from './transactions.intercerptor';
+import { UpdateTransactionDto } from './dto/update-transaction.dto';
 
 @Controller('transactions')
 export class TransactionsController {
@@ -49,19 +50,19 @@ export class TransactionsController {
 
   @Get(':id')
   findOne(@Param('id') id: number) {
-    return this.transactionsService.findOne({ id: +id });
+    return this.transactionsService.findOne({ id });
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
-    @Body() updateTransactionDto: Prisma.TransactionsUpdateInput,
+    @Param('id') id: number,
+    @Body() updateTransactionDto: UpdateTransactionDto,
   ) {
-    return this.transactionsService.update({ id: +id }, updateTransactionDto);
+    return this.transactionsService.update({ id }, updateTransactionDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.transactionsService.remove({ id: +id });
+  remove(@Param('id') id: number) {
+    return this.transactionsService.remove({ id });
   }
 }

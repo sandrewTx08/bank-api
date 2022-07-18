@@ -1,14 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma, TransactionTypes } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class TransactiontypesService {
   constructor(private prisma: PrismaService) {}
 
-  create(
-    data: Prisma.TransactionTypesCreateInput,
-  ): Promise<TransactionTypes | null> {
+  create(data: Prisma.TransactionTypesCreateInput) {
     return this.prisma.transactionTypes.create({ data });
   }
 
