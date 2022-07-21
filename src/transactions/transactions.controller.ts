@@ -25,17 +25,13 @@ export class TransactionsController {
   @Put('/deposit')
   @UseInterceptors(TransactionsEmailNotification)
   deposit(@Body() body: TransactionDepositPipe) {
-    return this.transactionsService.deposit(body.from_user_id, body.amount);
+    return this.transactionsService.deposit(body);
   }
 
   @Put('/transfer')
   @UseInterceptors(TransactionsEmailNotification)
   transfer(@Body() body: TransactionTransferPipe) {
-    return this.transactionsService.transfer(
-      body.from_user_id,
-      body.to_user_id,
-      body.amount,
-    );
+    return this.transactionsService.transfer(body);
   }
 
   @Post()
