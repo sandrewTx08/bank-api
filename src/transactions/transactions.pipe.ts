@@ -4,11 +4,11 @@ import { IsInt, Max } from 'class-validator';
 export class TransactionTransferPipe {
   @IsInt()
   @Type(() => Number)
-  to_user_id: number;
+  to_account_id: number;
 
   @IsInt()
   @Type(() => Number)
-  from_user_id: number;
+  from_account_id: number;
 
   @IsInt()
   @Type(() => Number)
@@ -18,10 +18,24 @@ export class TransactionTransferPipe {
 export class TransactionDepositPipe {
   @IsInt()
   @Type(() => Number)
-  from_user_id: number;
+  from_account_id: number;
 
   @IsInt()
   @Max(2000)
   @Type(() => Number)
   amount: number;
+}
+
+export class TransactionBuyPipe {
+  @IsInt()
+  @Type(() => Number)
+  from_account_id: number;
+
+  @IsInt()
+  @Type(() => Number)
+  product_id: number;
+
+  @IsInt()
+  @Type(() => Number)
+  quantity: number;
 }

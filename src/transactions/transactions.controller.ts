@@ -12,6 +12,7 @@ import {
 import { TransactionsService } from './transactions.service';
 import { Prisma } from '@prisma/client';
 import {
+  TransactionBuyPipe,
   TransactionDepositPipe,
   TransactionTransferPipe,
 } from './transactions.pipe';
@@ -32,6 +33,11 @@ export class TransactionsController {
   @UseInterceptors(TransactionsEmailNotification)
   transfer(@Body() body: TransactionTransferPipe) {
     return this.transactionsService.transfer(body);
+  }
+
+  @Put('/buy')
+  buy(@Body() body: TransactionBuyPipe) {
+    return this.transactionsService.buy(body);
   }
 
   @Post()

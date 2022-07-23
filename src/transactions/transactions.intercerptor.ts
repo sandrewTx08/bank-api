@@ -19,21 +19,21 @@ export class TransactionsEmailNotification implements NestInterceptor {
   ): Observable<any> {
     return next.handle().pipe(
       map((data) => {
-        if (data.from_user) {
-          this.emailService.sendByGmailProvider({
-            to: data.from_user.email,
-            subject: 'Transfer',
-          });
-          this.emailService.sendByGmailProvider({
-            to: data.to_user.email,
-            subject: 'Transfer',
-          });
-        } else
-          this.emailService.sendByGmailProvider({
-            to: data.from_user.email,
-            subject: 'Deposit',
-            text: 'Deposit',
-          });
+        // if (data.from_user) {
+        //   this.emailService.sendByGmailProvider({
+        //     to: data.from_user.email,
+        //     subject: 'Transfer',
+        //   });
+        //   this.emailService.sendByGmailProvider({
+        //     to: data.to_user.email,
+        //     subject: 'Transfer',
+        //   });
+        // } else
+        //   this.emailService.sendByGmailProvider({
+        //     to: data.from_user.email,
+        //     subject: 'Deposit',
+        //     text: 'Deposit',
+        //   });
 
         return data;
       }),

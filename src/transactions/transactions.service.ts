@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma, Transactions } from '@prisma/client';
+import { Prisma } from '@prisma/client';
+import { AccountsService } from 'src/accounts/accounts.service';
 import { PrismaService } from 'src/prisma.service';
-import { UsersService } from 'src/users/users.service';
+import { ProductsService } from 'src/products/products.service';
 import {
+  TransactionBuyPipe,
   TransactionDepositPipe,
   TransactionTransferPipe,
 } from './transactions.pipe';
@@ -10,70 +12,117 @@ import {
 @Injectable()
 export class TransactionsService {
   constructor(
-    private prisma: PrismaService,
-    private userService: UsersService,
+    private readonly prisma: PrismaService,
+    private readonly accountService: AccountsService,
+    private readonly productService: ProductsService,
   ) {}
 
-  history(
-    data: Omit<Prisma.TransactionsUncheckedCreateInput, 'transaction_type'>,
-  ) {
-    return data.to_user_id
-      ? this.prisma.transactions.create({
-          data: { ...data, transaction_type: 2 },
-        })
-      : this.prisma.transactions.create({
-          data: { ...data, transaction_type: 1 },
-        });
+  history(data: Prisma.TransactionsUncheckedCreateInput) {
+    return this.prisma.transactions.create({ data });
   }
 
   async transfer(data: TransactionTransferPipe) {
-    const { from_user_id, to_user_id, amount } = data;
+    const { from_account_id, to_account_id, amount } = data;
 
-    const [from_user, to_user] = await Promise.all([
-      this.userService.findOne({ id: from_user_id }),
-      this.userService.findOne({ id: to_user_id }),
+    if (from_account_id === to_account_id) return 'Error';
+
+    const [from, to] = await Promise.all([
+      this.accountService.findOne({ id: from_account_id }),
+      this.accountService.findOne({ id: to_account_id }),
     ]);
 
-    if (!to_user || !from_user) return 'Error';
+    if (!to || !from) return 'Error';
 
-    const from_user_balance = from_user.balance.toNumber();
-    const to_user_balance = to_user.balance.toNumber();
+    const from_balance = from.balance.toNumber();
+    const to_balance = to.balance.toNumber();
 
-    if (from_user_balance < amount) return null;
+    if (from_balance < amount) return 'Error';
 
-    const [to_user_update, from_user_update] = await Promise.all([
-      this.userService.update(
-        { id: to_user_id },
-        { balance: to_user_balance + amount },
+    const [to_update, from_update] = await Promise.all([
+      this.accountService.update(
+        { id: to_account_id },
+        { balance: to_balance + amount },
       ),
-      this.userService.update(
-        { id: from_user_id },
-        { balance: from_user_balance - amount },
+      this.accountService.update(
+        { id: from_account_id },
+        { balance: from_balance - amount },
       ),
-      this.history({ amount, from_user_id, to_user_id }),
+      this.history({
+        amount,
+        from_account_id,
+        to_account_id,
+        transaction_type: 2,
+      }),
     ]);
 
-    return { to_user: to_user_update, from_user: from_user_update };
+    return { to: to_update, from: from_update };
   }
 
   async deposit(data: TransactionDepositPipe) {
-    const { from_user_id, amount } = data;
+    const { from_account_id, amount } = data;
 
-    const from_user = await this.userService.findOne({ id: from_user_id });
-    const from_user_balance = from_user.balance.toNumber();
+    const from = await this.accountService.findOne({
+      id: from_account_id,
+    });
+    const balance = from.balance.toNumber();
 
-    const [from_user_update] = await Promise.all([
-      this.userService.update(
-        { id: from_user_id },
-        { balance: from_user_balance + amount },
+    const [from_update] = await Promise.all([
+      this.accountService.update(
+        { id: from_account_id },
+        { balance: balance + amount },
       ),
-      this.history({ amount, from_user_id }),
+      this.history({ amount, from_account_id, transaction_type: 1 }),
     ]);
 
-    return { from_user: from_user_update };
+    return from_update;
   }
 
-  create(data: Prisma.TransactionsCreateInput): Promise<Transactions | null> {
+  async buy(data: TransactionBuyPipe) {
+    const { from_account_id, product_id, quantity } = data;
+
+    const product = await this.productService.findOne({ id: product_id });
+    const product_price = product.price.toNumber();
+    const amount = product_price * quantity;
+
+    if (from_account_id === product.account_id) return 'Error';
+
+    const [from, to] = await Promise.all([
+      this.accountService.findOne({ id: from_account_id }),
+      this.accountService.findOne({ id: product.account_id }),
+    ]);
+
+    const from_balance = from.balance.toNumber();
+    if (from_balance < amount) return 'Error';
+    const from_amount = from_balance - amount;
+
+    const to_balance = to.balance.toNumber();
+    const to_amount = to_balance + amount;
+
+    const [product_update, to_update, from_update] = await Promise.all([
+      this.productService.update(
+        { id: product_id },
+        { quantity: product.quantity - quantity },
+      ),
+      this.accountService.update(
+        { id: product.account_id },
+        { balance: to_amount },
+      ),
+      this.accountService.update(
+        { id: from_account_id },
+        { balance: from_amount },
+      ),
+      this.history({
+        amount: from_amount,
+        from_account_id,
+        to_account_id: product.account_id,
+        transaction_type: 3,
+      }),
+    ]);
+
+    return { to: to_update, from: from_update, product: product_update };
+  }
+
+  create(data: Prisma.TransactionsCreateInput) {
     return this.prisma.transactions.create({ data });
   }
 
